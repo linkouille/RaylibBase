@@ -38,22 +38,6 @@ project "RayLibBase"
 		"includes/"
 	}
 
-  libdirs { 
-  -- Add external lib directory here
-    "lib"
-  }
-
-  links
-  {
-    -- Add link tag here
-    "raylib",
-    "GL",
-    "m",
-    "pthread",
-    "dl",
-    "X11"
-  }
-
 	filter "system:windows"
 		-- cppdialect "C++20"
 
@@ -62,11 +46,28 @@ project "RayLibBase"
 		defines{
 			"PLATEFORM_WIN",
 		}
+
+		libdirs {
+			"lib/win"
+		}
+		
+		links
+		{
+			"raylib",
+			"winmm",
+			"gdi32",
+			"opengl32",
+			"kernel32",
+			"user32"
+		}
+
 		filter "action:vs2010"
 			prebuildcommands 
 			{
 				-- Copy assets
-				("xcopy /Y /E /H /C /I " .. "%{wks.location}assets\\ " .. "%{wks.location}Build\\%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}\\assets\\ ")
+				("xcopy /Y /E /H /C /I " .. "%{wks.location}assets\\ " .. "%{wks.location}Build\\%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}\\assets\\ "),
+				
+				("xcopy /Y /E /H /C /I " .. "%{wks.location}lib\\win\\ " .. "%{wks.location}Build\\%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}\\")
 			}
 
  	filter "system:Unix"
@@ -77,7 +78,21 @@ project "RayLibBase"
 		defines{
 			"PLATEFORM_UNIX",
 		}
+		
+		links
+		{
+			"raylib",
+			"GL",
+			"m",
+			"pthread",
+			"dl",
+			"X11"
+		}
 
+		libdirs { 
+			"lib/linux"
+		}
+		
 	filter "configurations:Debug"
 		defines "DEBUG"
 		symbols "On"

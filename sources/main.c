@@ -7,7 +7,7 @@ int main(int argc, char const *argv[])
 {
   printf("Hello World!\n");
 
-  InitWindow(800, 450, "raylib [core] example - basic window");
+  InitWindow(800, 450, "RaylibBase");
 
   Color bgColor = {45,60,80,255};
 
